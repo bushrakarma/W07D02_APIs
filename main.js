@@ -43,15 +43,43 @@ app.post("/create/user", (req, res) => {
   res.json(users);
 });
 
-app.get('/first-user', (req, res) =>{
-    const first = users[0];
-    res.status(200);
-    res.json(first)
-})
+app.get("/first-user", (req, res) => {
+  const first = users[0];
+  res.status(200);
+  res.json(first);
+});
 
-app.get('/', (req, res) =>{
-    res.send("Hello World!")
-})
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 app.listen(port, () => {
   console.log(`app listening at http://localhost:${port}`);
 });
+
+// Practice
+
+const todos = [
+  { todo: " wake up", isCompleted: true },
+  { todo: "Eat Breakfast", isCompleted: false },
+];
+app.get("/todos", (req, res) => {
+  res.json(todos);
+  res.status(200);
+});
+
+app.post("/create/todo", (req, res) => {
+    const toDo = {
+        todo: req.body.todo,
+        isCompleted: req.body.isCompleted
+    }
+    todos.push(toDo)
+    res.status(201)
+    res.json(toDo)
+});
+
+app.get('/completed/todos', (req, res) => {
+    const completed = todos.filter((element, index) =>{
+        return element.isCompleted === true
+    })
+    res.json(completed)
+})
