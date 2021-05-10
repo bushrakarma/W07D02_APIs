@@ -18,11 +18,21 @@ app.get("/users", (request, response)=>{
     response.json(users)
 })
 
-app.get("/users/:name", (request, response)=>{
-    const user = request.params.name;
-    
-})
+app.get("/user/:name", (req, res) => {
+    const user = req.params.name
+    const found = users.find((element) => {
+        return element.name === user;
+      });
 
-app.listen(port, ()=>{
-    console.log(`app listening at http://localhost:${port}`);
-})
+      if (found) {
+        res.status(200);
+        res.json(found);
+      } else {
+        res.status(404);
+        res.json("User not found");
+      }
+});
+
+app.listen(port, () => {
+  console.log(`app listening at http://localhost:${port}`);
+});
