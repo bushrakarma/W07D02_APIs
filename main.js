@@ -83,3 +83,42 @@ app.get('/completed/todos', (req, res) => {
     })
     res.json(completed)
 })
+
+app.put("/update/todo/:name", (req, res) => {
+    const toDoUpdate = req.params.name;
+    const found = todos.find((element)=>{
+        return element.name === toDoUpdate
+    })
+    const found = {
+        todo: req.body.todo,
+        isCompleted:req.body.isCompleted,
+    }
+    res.json(found);
+    res.status(200)
+})
+
+app.put("/complete/todo/:name", (req, res) => {
+    const toDoCompleted = req.params.name;
+    const found = todos.find((element)=>{
+        return element.name === toDoCompleted
+    })
+    if(found){
+        found.isCompleted = true;
+        res.status(200)
+        res.json("Updated")
+    }else{
+        res.status(404)
+        res.json('ToDo is not found')
+    }
+})
+
+app.delete("/delete/todo/:name", (req, res) => {
+    const toDelete = req.params.name;
+    const found = todos.find((element)=>{
+        return element.name === toDelete
+    })
+    let index = todos.indexOf(found)
+    let toDoDeleted = todos.slice(index, -1)
+    res.json(toDoDeleted)
+    res.status(200)
+})
